@@ -7,7 +7,7 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from config.settings import WELCOME_MESSAGE
-from services.deepseek import get_deepseek_response, MessageTooLongError, DeepSeekError
+from services.ai_service import get_ai_response, MessageTooLongError, AIServiceError
 
 logger = logging.getLogger(__name__)
 
@@ -67,8 +67,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         # Send typing action while processing
         await update.message.chat.send_action("typing")
         
-        # Get response from DeepSeek
-        response = await get_deepseek_response(message_text)
+        # Get response from AI service
+        response = await get_ai_response(message_text)
         
         await update.message.reply_text(response)
         logger.info("Sent response to user %s", user.id)
@@ -77,7 +77,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         error_message = str(e)
         logger.warning("Message too long from user %s", user.id)
         await update.message.reply_text(error_message)
-    except DeepSeekError as e:
+    except AIServiceError as e:
         error_message = (
             "😔 Извините, произошла ошибка при обработке вашего сообщения.\n"
             "Пожалуйста, попробуйте позже или напишите другое сообщение."

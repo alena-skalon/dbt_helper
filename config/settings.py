@@ -12,15 +12,15 @@ TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 if not TELEGRAM_TOKEN:
     raise ValueError("TELEGRAM_TOKEN environment variable is not set")
 
-# OpenRouter API Key
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-if not OPENROUTER_API_KEY:
-    raise ValueError("OPENROUTER_API_KEY environment variable is not set")
+# AI API Key
+AI_API_KEY = os.getenv("AI_API_KEY")
+if not AI_API_KEY:
+    raise ValueError("AI_API_KEY environment variable is not set")
 
 # Bot settings
-BOT_NAME = "DeepSeek Psychological Bot"
+BOT_NAME = "Psychological Support Bot"
 WELCOME_MESSAGE = """
-👋 Привет! Я психологический чат-бот на базе DeepSeek.
+👋 Привет! Я психологический чат-бот.
 Расскажите, что вас беспокоит, и я постараюсь помочь.
 
 🔒 Ваши сообщения не сохраняются и не используются для обучения.

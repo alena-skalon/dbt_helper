@@ -1,28 +1,28 @@
-# DeepSeek Psychological Telegram Bot
+# Psychological Support Telegram Bot
 
-MVP психологического чат-бота на базе LLM (DeepSeek), доступного через Telegram.
+MVP психологического чат-бота на базе LLM, доступного через Telegram.
 
 ## Основные функции
 - Приём и отправка сообщений через Telegram
-- Интеграция с DeepSeek API для генерации ответов
+- Интеграция с AI API для генерации ответов
 - Простой диалоговый интерфейс
 
 ## Быстрый старт
 1. Клонируйте репозиторий
 2. Установите зависимости:
    ```
-   pip install -r deployment/requirements.txt
+   pip install -r requirements.txt
    ```
 3. Создайте файл `.env` в папке `config` с переменными:
    - `TELEGRAM_TOKEN=...`
-   - `DEEPSEEK_API_KEY=...`
+   - `AI_API_KEY=...`
 4. Запустите бота:
    ```
    python main.py
    ```
 
 ## Деплой на Railway
-- Используйте `deployment/Procfile` и requirements.txt
+- Используйте `deployment/Procfile`
 - Задайте переменные окружения через интерфейс Railway
 
 ---
