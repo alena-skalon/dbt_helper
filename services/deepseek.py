@@ -47,11 +47,13 @@ async def get_deepseek_response(message: str) -> str:
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
         "HTTP-Referer": "https://github.com/alena-skalon/dbt_helper",
         "X-Title": "DeepSeek Psychological Bot",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "OpenAI-Organization": "org-123",  # Required by OpenRouter
+        "User-Agent": "DeepSeek Psychological Bot/1.0"
     }
     
     data = {
-        "model": "openrouter/openrouter",
+        "model": "deepseek-ai/deepseek-chat-33b",
         "messages": [
             {
                 "role": "system",
@@ -63,7 +65,8 @@ async def get_deepseek_response(message: str) -> str:
             }
         ],
         "temperature": 0.7,
-        "max_tokens": 1000
+        "max_tokens": 1000,
+        "stream": False  # Explicitly set streaming to false
     }
     
     try:
@@ -72,16 +75,18 @@ async def get_deepseek_response(message: str) -> str:
                 OPENROUTER_API_URL,
                 headers=headers,
                 json=data,
-                timeout=30  # 30 seconds timeout
+                timeout=30,  # 30 seconds timeout
+                ssl=True  # Ensure SSL verification
             ) as response:
                 if response.status != 200:
                     error_text = await response.text()
                     logger.error(
-                        "OpenRouter API error: %s (status: %d)", 
+                        "OpenRouter API error: %s (status: %d, headers: %s)", 
                         error_text, 
-                        response.status
+                        response.status,
+                        headers
                     )
-                    raise DeepSeekError(f"API returned status {response.status}")
+                    raise DeepSeekError(f"API returned status {response.status}: {error_text}")
                 
                 result = await response.json()
                 return result["choices"][0]["message"]["content"]
