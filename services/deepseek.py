@@ -51,7 +51,7 @@ async def get_deepseek_response(message: str) -> str:
     }
     
     data = {
-        "model": "deepseek-ai/deepseek-chat-33b",
+        "model": "openrouter/openrouter",
         "messages": [
             {
                 "role": "system",
