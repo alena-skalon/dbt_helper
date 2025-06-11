@@ -1,0 +1,68 @@
+---
+
+description: "Step-by-step implementation plan with milestone tasks"
+alwaysApply: false
+------------------
+
+# Implementation Plan: Telegram Bot for Psychological Support
+
+Каждая задача ниже имеет статус. Начинайте с первой невыполненной и отмечайте завершённые задачи.
+
+---
+
+## ✅ Milestone 1: Подготовка проекта и окружения
+
+* TODO: Создать структуру проекта в соответствии с `file_structure_document.mdc`
+* TODO: Создать `.gitignore` и добавить `.env`, `__pycache__`, `.venv`, `.mypy_cache`, `*.pyc`
+* TODO: Инициализировать репозиторий Git и сделать первый коммит после `.gitignore`
+* TODO: Добавить зависимости: `python-telegram-bot==20.8`, `requests`, `python-dotenv`, `black`
+* TODO: Создать и заполнить файл `config/settings.py` с загрузкой из `.env`
+* TODO: Добавить README.md с кратким описанием проекта
+
+---
+
+## ✅ Milestone 2: Базовая реализация бота
+
+* TODO: Создать `main.py` с конфигурацией и запуском бота
+* TODO: Настроить polling через `application.run_polling()` без `asyncio.run()`
+* TODO: Создать хендлеры команд `/start` и текстовых сообщений в `bot/handlers.py`
+* TODO: Настроить базовый роутинг через `ApplicationBuilder`
+* TODO: Реализовать `services/deepseek.py` для отправки сообщений в DeepSeek API
+* TODO: Протестировать бот в локальной среде с `.env` и makefile / poetry / requirements.txt
+
+---
+
+## ✅ Milestone 3: Деплой и контейнеризация
+
+* TODO: Написать `Dockerfile` на базе `python:3.12-slim` с pip install -e . через COPY в правильном порядке
+* TODO: Создать `.dockerignore` для исключения мусора из сборочного контекста
+* TODO: Подготовить `deployment/Procfile` для запуска на Railway
+* TODO: Подключить GitHub-репозиторий к Railway
+* TODO: Задать переменные окружения в Railway
+* TODO: Протестировать деплой и сделать smoke test
+
+---
+
+## ✅ Milestone 4: Полировка и документация
+
+* TODO: Настроить автоформатирование с black (`black .`)
+* TODO: Проверить корректность ответа DeepSeek (обработка ошибок)
+* TODO: Добавить логирование в `utils/logger.py`
+* TODO: Обновить README с инструкциями по запуску и деплою
+* TODO: При желании — добавить тесты в `/tests`
+
+---
+
+## ✅ Acceptance Checklist
+
+* [ ] Проект запускается локально без ошибок
+* [ ] Бот отвечает на `/start` и сообщения в Telegram
+* [ ] DeepSeek API корректно интегрирован и возвращает ответы
+* [ ] Переменные окружения не попадают в Git
+* [ ] Деплой на Railway работает без ошибок
+* [ ] Контейнер собирается и запускается корректно
+* [ ] README содержит инструкции для новых разработчиков
+
+---
+
+> **@Cursor**: После завершения задачи поменяй её статус на DONE и добавь краткий маркер «// done by Cursor» с описанием, что именно сделано.

@@ -1,0 +1,10 @@
+## Tech Stack Document: Telegram Bot for Psychological Support
+
+| Layer            | Library / Service (Version)     | Purpose                                      | Documentation Link                                                                                 |
+| ---------------- | ------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| Runtime          | Python 3.11                     | Основной язык исполнения и логики бота       | [https://www.python.org/doc/](https://www.python.org/doc/)                                         |
+| Bot SDK          | python-telegram-bot v20.8       | Взаимодействие с Telegram Bot API            | [https://docs.python-telegram-bot.org/en/stable/](https://docs.python-telegram-bot.org/en/stable/) |
+| DeepSeek SDK     | requests (built-in, or v2.31.0) | Отправка HTTP-запросов к DeepSeek API        | [https://requests.readthedocs.io/en/latest/](https://requests.readthedocs.io/en/latest/)           |
+| Database         | —                               | В первой версии хранение данных не требуется | —                                                                                                  |
+| Deployment       | Railway                         | Хостинг и CI/CD деплоймент приложения        | [https://docs.railway.app/](https://docs.railway.app/)                                             |
+| Линтер/Форматтер | black v24.3.0                   | Автоформатирование Python-кода               | [https://black.readthedocs.io/en/stable/](https://black.readthedocs.io/en/stable/)                 |
