@@ -10,7 +10,7 @@ from config.settings import OPENROUTER_API_KEY
 
 logger = logging.getLogger(__name__)
 
-OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
+OPENROUTER_API_URL = "https://api.openrouter.ai/api/v1/chat/completions"
 MAX_MESSAGE_LENGTH = 2000  # Maximum length of message to process
 
 SYSTEM_PROMPT = """Adopt the role of a psychologist trained in DBT and ACT. 
