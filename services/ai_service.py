@@ -17,12 +17,20 @@ MAX_MESSAGE_LENGTH = 2000  # Maximum length of message to process
 SYSTEM_PROMPT = """Adopt the role of a psychologist trained in DBT and ACT. 
 Give me empathic and encouraging answer. Provide one non-banal, deep suggestion for how I can feel better right now. Reply in user's language"""
 
+FALLBACK_MESSAGE = """Извините, но в данный момент я не могу обработать ваше сообщение, так как сервис AI недоступен.
+
+Пожалуйста, попробуйте позже или обратитесь к администратору бота."""
+
 class AIServiceError(Exception):
     """Base exception for AI service errors."""
     pass
 
 class MessageTooLongError(AIServiceError):
     """Exception raised when message exceeds maximum length."""
+    pass
+
+class AIServiceUnavailableError(AIServiceError):
+    """Exception raised when AI service is not configured."""
     pass
 
 async def get_ai_response(message: str) -> str:
@@ -38,7 +46,12 @@ async def get_ai_response(message: str) -> str:
     Raises:
         MessageTooLongError: If message exceeds maximum length
         AIServiceError: If API call fails
+        AIServiceUnavailableError: If AI service is not configured
     """
+    if not AI_API_KEY:
+        logger.error("Cannot process message: AI_API_KEY is not set")
+        return FALLBACK_MESSAGE
+        
     if len(message) > MAX_MESSAGE_LENGTH:
         raise MessageTooLongError(
             f"Сообщение слишком длинное. Максимальная длина: {MAX_MESSAGE_LENGTH} символов."
