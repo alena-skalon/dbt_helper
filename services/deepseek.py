@@ -4,6 +4,7 @@ Handles communication with DeepSeek model through OpenRouter.
 """
 import logging
 import aiohttp
+import asyncio
 from typing import Optional
 
 from config.settings import OPENROUTER_API_KEY
@@ -70,30 +71,48 @@ async def get_deepseek_response(message: str) -> str:
     }
     
     try:
+        logger.info("Sending request to OpenRouter API with headers: %s", headers)
+        logger.info("Request data: %s", data)
+        
         async with aiohttp.ClientSession() as session:
-            async with session.post(
-                OPENROUTER_API_URL,
-                headers=headers,
-                json=data,
-                timeout=30,  # 30 seconds timeout
-                ssl=True  # Ensure SSL verification
-            ) as response:
-                if response.status != 200:
-                    error_text = await response.text()
-                    logger.error(
-                        "OpenRouter API error: %s (status: %d, headers: %s)", 
-                        error_text, 
-                        response.status,
-                        headers
-                    )
-                    raise DeepSeekError(f"API returned status {response.status}: {error_text}")
+            try:
+                async with session.post(
+                    OPENROUTER_API_URL,
+                    headers=headers,
+                    json=data,
+                    timeout=30,
+                    ssl=True
+                ) as response:
+                    if response.status != 200:
+                        error_text = await response.text()
+                        logger.error(
+                            "OpenRouter API error: Status: %d, Response: %s, Headers: %s", 
+                            response.status,
+                            error_text,
+                            dict(response.headers)
+                        )
+                        raise DeepSeekError(f"API returned status {response.status}: {error_text}")
+                    
+                    result = await response.json()
+                    logger.info("Successfully received response from OpenRouter API")
+                    return result["choices"][0]["message"]["content"]
+                    
+            except aiohttp.ClientError as e:
+                logger.error(
+                    "Network error details - Type: %s, Message: %s, Args: %s", 
+                    type(e).__name__, 
+                    str(e), 
+                    getattr(e, 'args', [])
+                )
+                raise DeepSeekError("Ошибка сети при обращении к API") from e
+            except asyncio.TimeoutError as e:
+                logger.error("Request timed out after 30 seconds")
+                raise DeepSeekError("Превышено время ожидания ответа от API") from e
                 
-                result = await response.json()
-                return result["choices"][0]["message"]["content"]
-                
-    except aiohttp.ClientError as e:
-        logger.error("Network error while calling OpenRouter: %s", str(e))
-        raise DeepSeekError("Ошибка сети при обращении к API") from e
     except Exception as e:
-        logger.error("Unexpected error while calling OpenRouter: %s", str(e))
+        logger.error(
+            "Unexpected error while calling OpenRouter - Type: %s, Message: %s", 
+            type(e).__name__, 
+            str(e)
+        )
         raise DeepSeekError("Неожиданная ошибка при обработке запроса") from e 
